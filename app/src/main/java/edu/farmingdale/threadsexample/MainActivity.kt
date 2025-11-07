@@ -110,6 +110,13 @@ private fun fibonacciIterative(n: Long): Long {
     return b
 }
 
+/**
+ * notes: used this android studios website to help
+ * create a circular progression timer:
+ * https://developer.android.com/develop/ui/compose/quick-
+ * guides/content/create-progress-indicator
+ */
+
 // ToDo 1: Call `FibonacciDemoNoBgThrd` that calculates the Fibonacci number of a given number.
 /** called FibonacciDemoNoBgThrd(), it wouldnt let me use it without padding
  * so i just wrapped the function in a box
@@ -130,7 +137,16 @@ private fun fibonacciIterative(n: Long): Long {
  */
 
 // ToDo 4: Make the Text of the timer larger
+/** this part is complete. i changed a font size value in the TimerScreen.kt
+ * class. it succesfully made the timer text bigger. Completed as asked
+ */
+
 // ToDo 5: Show a visual indicator of the timer going down to 0
+/** the 5th part was succesfully completed. a circular timer
+ * indicator was added behind the timer. fills up as the time
+ * decreases. fills up in parts
+ */
+
 // ToDo 6: Add a button to rest the timer
 // ToDo 7: Play a sound when the timer reaches 0
 // ToDo 8: During the last 10 seconds, make the text red and bold

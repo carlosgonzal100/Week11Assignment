@@ -50,12 +50,44 @@ fun TimerScreen(
             if (timerViewModel.isRunning) {
 
             }
+
+            //calculates how much the timer runs in milliseconds
+            val totalMillis =
+                (timerViewModel.selectedHour * 3600 +
+                        timerViewModel.selectedMinute * 60 +
+                        timerViewModel.selectedSecond) * 1000L
+
+            //converts the total milliseconds into a fraction
+            //so the ring fills up by parts as time decreases
+            val targetProgress =
+                if (totalMillis > 0)
+                    1f - (timerViewModel.remainingMillis.toFloat() / totalMillis.toFloat())
+                else 0f
+
+            //smoothly interpolates from one progress value to the next
+            //causing the circle to move fluidly
+            val animatedProgress by animateFloatAsState(
+                targetValue = targetProgress.coerceIn(0f, 1f),
+                animationSpec = tween(durationMillis = 300),
+                label = "timer-progress"
+            )
+
+            //this method is what actually draws the circle progression
+            //using the animatedProgress value. goes in parts insead of
+            //being continuous
+            CircularProgressIndicator(
+                progress = { animatedProgress },
+                modifier = Modifier.matchParentSize(),
+                strokeWidth = 12.dp
+            )
+
             Text(
                 text = timerText(timerViewModel.remainingMillis),
 
                 //CHANGED THIS VALUE HERE TO MAKE THE TIMER TEXT BIGGER
-                //CHANGED FROM 40 TO 60
-                fontSize = 60.sp,
+                //CHANGED FROM 40 TO 50(readjusted it as it was to big to
+                //fit into the progression circle)
+                fontSize = 50.sp,
             )
         }
         TimePicker(
