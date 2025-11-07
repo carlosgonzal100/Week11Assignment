@@ -157,4 +157,12 @@ private fun fibonacciIterative(n: Long): Long {
  */
 
 // ToDo 7: Play a sound when the timer reaches 0
+/** added a notification sound to play when the timer reaches
+ * 0. fixed the problem where the sound would play everytime the
+ * app launches because the timer is already 0. used a has started
+ * boolean value to determine when the sound plays by using it in the
+ * launchEffects if condition in the timer screen class. also sets the
+ * hasStarted value to false in the reset timer method in the timer view
+ * model class to ensure sound dousnt play on reset
+ */
 // ToDo 8: During the last 10 seconds, make the text red and bold

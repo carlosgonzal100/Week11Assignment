@@ -51,7 +51,8 @@ fun TimerScreen(
     // Plays a notification sound when the timer finishes
     LaunchedEffect(timerViewModel.remainingMillis) {
 
-        //the conditions checks
+        //the conditions checks the countdown has started at least once
+        // to allow the sound to play when the timer naturally ends
         if (timerViewModel.hasStarted && timerViewModel.remainingMillis == 0L && !timerViewModel.isRunning) {
             try {
                 val player = MediaPlayer.create(

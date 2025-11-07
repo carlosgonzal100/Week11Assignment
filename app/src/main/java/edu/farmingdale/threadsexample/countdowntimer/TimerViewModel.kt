@@ -109,6 +109,13 @@ class TimerViewModel : ViewModel() {
                 selectedSecond) * 1000L
         remainingMillis = total
         isRunning = false
+
+        //sets the has started value on false
+        //so when the reset button is pressed and sets
+        //the timers text value and everything to 0, the sound
+        //does not play
+        hasStarted = false
+
     }
 
     override fun onCleared() {
