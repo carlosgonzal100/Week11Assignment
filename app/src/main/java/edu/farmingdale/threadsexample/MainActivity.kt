@@ -148,5 +148,13 @@ private fun fibonacciIterative(n: Long): Long {
  */
 
 // ToDo 6: Add a button to rest the timer
+/** a reset button is added. it only appears when the timer is not
+ * active. the reset button resets the timer text, the progrssion circle
+ * and resets the scroll wheels for picking time.i alsi made a few adjustment
+ * for quality of life, like setting the timer to the users chosen time
+ * when cancelling the timer. and the circle showing as full when
+ * a time of 0 is not chosen
+ */
+
 // ToDo 7: Play a sound when the timer reaches 0
 // ToDo 8: During the last 10 seconds, make the text red and bold

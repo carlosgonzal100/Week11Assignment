@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
@@ -61,7 +63,7 @@ fun TimerScreen(
             //so the ring fills up by parts as time decreases
             val targetProgress =
                 if (totalMillis > 0)
-                    1f - (timerViewModel.remainingMillis.toFloat() / totalMillis.toFloat())
+                    timerViewModel.remainingMillis.toFloat() / totalMillis.toFloat()
                 else 0f
 
             //smoothly interpolates from one progress value to the next
@@ -103,6 +105,7 @@ fun TimerScreen(
             ) {
                 Text("Cancel")
             }
+
         } else {
             Button(
                 enabled = timerViewModel.selectedHour +
@@ -113,7 +116,11 @@ fun TimerScreen(
             ) {
                 Text("Start")
             }
+            Spacer(Modifier.width(16.dp))
+            Button(onClick = timerViewModel::resetTimer) { Text("Reset") }
+
         }
+
     }
 }
 
@@ -137,6 +144,14 @@ fun TimePicker(
     var hourVal by remember { mutableIntStateOf(hour) }
     var minVal by remember { mutableIntStateOf(min) }
     var secVal by remember { mutableIntStateOf(sec) }
+
+
+    // ✅ NEW: Sync local picker values with ViewModel values
+    LaunchedEffect(hour, min, sec) {
+        hourVal = hour
+        minVal = min
+        secVal = sec
+    }
 
     Row(
         horizontalArrangement = Arrangement.Center,
@@ -190,15 +205,23 @@ fun NumberPickerWrapper(
         DecimalFormat("00").format(i)
     }
 
+    //updated the android view to reset all the
+    //timer pickers to 0 when the reset button is
+    //pressed
     AndroidView(
         factory = { context ->
             NumberPicker(context).apply {
-                setOnValueChangedListener { numberPicker, oldVal, newVal -> onNumPick(newVal) }
+                setOnValueChangedListener { _, _, newVal -> onNumPick(newVal) }
                 minValue = minVal
                 maxValue = maxVal
                 value = initVal
                 setFormatter(numFormat)
             }
+        },
+        update = { picker ->
+
+            //This line visually updates the scoller wheels
+            if (picker.value != initVal) picker.value = initVal
         }
     )
 }

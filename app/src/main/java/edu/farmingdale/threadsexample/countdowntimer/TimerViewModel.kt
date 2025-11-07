@@ -38,6 +38,11 @@ class TimerViewModel : ViewModel() {
         selectedHour = hour
         selectedMinute = min
         selectedSecond = sec
+
+        //added this to help display what time you choose
+        //on the timer text by recalculating remainingMilis
+        remainingMillis = (hour * 3600 + min * 60 + sec) * 1000L
+
     }
 
     fun startTimer() {
@@ -64,8 +69,37 @@ class TimerViewModel : ViewModel() {
         if (isRunning) {
             timerJob?.cancel()
             isRunning = false
-            remainingMillis = 0
+
+            // sets the timer to the time the user chose when cacelled
+            //instead of automatically going to 0
+            remainingMillis = (selectedHour * 3600 +
+                    selectedMinute * 60 +
+                    selectedSecond) * 1000L
+
         }
+
+
+    }
+
+    //Added a reset timer method to reset the timer to the selected time
+    fun resetTimer() {
+
+        //stops the timer
+        cancelTimer()
+
+        //resets timer text to 0 for everything
+        selectedHour = 0
+        selectedMinute = 0
+        selectedSecond = 0
+        remainingMillis = 0L
+        isRunning = false
+
+        // restore remaining time to the selected H:M:S total
+        val total = (selectedHour * 3600 +
+                selectedMinute * 60 +
+                selectedSecond) * 1000L
+        remainingMillis = total
+        isRunning = false
     }
 
     override fun onCleared() {
