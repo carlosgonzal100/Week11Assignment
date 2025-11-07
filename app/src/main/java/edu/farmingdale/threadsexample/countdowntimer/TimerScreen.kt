@@ -30,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -107,6 +108,11 @@ fun TimerScreen(
                 strokeWidth = 12.dp
             )
 
+            //detects when the countdown timer reaches the
+            //last 10 seconds using millisecons
+            val isLastTenSeconds = timerViewModel.isRunning &&
+                    timerViewModel.remainingMillis in 1..10_000
+
             Text(
                 text = timerText(timerViewModel.remainingMillis),
 
@@ -114,6 +120,12 @@ fun TimerScreen(
                 //CHANGED FROM 40 TO 50(readjusted it as it was to big to
                 //fit into the progression circle)
                 fontSize = 50.sp,
+
+                //if isLastTenSeconds detects the timer has reached the last
+                //10 seconds, changes the timer text to bold and red, otherwise
+                //if timer is over 10 seconds the color and font is the same
+                color = if (isLastTenSeconds) Color.Red else Color.Unspecified,
+                fontWeight = if (isLastTenSeconds) FontWeight.Bold else FontWeight.Normal
             )
         }
         TimePicker(

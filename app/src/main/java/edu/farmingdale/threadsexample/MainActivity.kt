@@ -165,4 +165,11 @@ private fun fibonacciIterative(n: Long): Long {
  * hasStarted value to false in the reset timer method in the timer view
  * model class to ensure sound dousnt play on reset
  */
+
 // ToDo 8: During the last 10 seconds, make the text red and bold
+/**used a variable isLastTenSeconds to detect the last 10 seconds in the
+ * timer through milliseconds. the text composable for the timer uses
+ * this variable and depending if the isLastTenSeconds timer detects the
+ * last ten seconds, turns the timer text bold and red. but ONLY
+ * when the timer is active and is 10 seconds and below.
+ */
