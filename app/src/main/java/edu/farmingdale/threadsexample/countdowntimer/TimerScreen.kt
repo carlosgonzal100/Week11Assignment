@@ -1,5 +1,8 @@
 package edu.farmingdale.threadsexample.countdowntimer
 
+import android.media.MediaPlayer
+import android.provider.Settings
+import androidx.compose.ui.platform.LocalContext
 import android.util.Log
 import android.widget.NumberPicker
 import androidx.compose.animation.core.LinearEasing
@@ -42,6 +45,26 @@ fun TimerScreen(
     modifier: Modifier = Modifier,
     timerViewModel: TimerViewModel = viewModel()
 ) {
+
+    val context = LocalContext.current
+
+    // Plays a notification sound when the timer finishes
+    LaunchedEffect(timerViewModel.remainingMillis) {
+
+        //the conditions checks
+        if (timerViewModel.hasStarted && timerViewModel.remainingMillis == 0L && !timerViewModel.isRunning) {
+            try {
+                val player = MediaPlayer.create(
+                    context,
+                    Settings.System.DEFAULT_NOTIFICATION_URI
+                )
+                player?.start()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
             modifier = modifier

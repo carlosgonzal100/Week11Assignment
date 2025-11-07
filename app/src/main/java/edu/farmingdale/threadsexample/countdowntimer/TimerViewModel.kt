@@ -11,6 +11,7 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
+
 class TimerViewModel : ViewModel() {
     private var timerJob: Job? = null
 
@@ -20,6 +21,12 @@ class TimerViewModel : ViewModel() {
     var selectedMinute by mutableIntStateOf(0)
         private set
     var selectedSecond by mutableIntStateOf(0)
+        private set
+
+    // Used to ensure sound only plays after the timer has actually started
+    //instead of playing everytime the app starts because of the timer
+    //already being at 0
+    var hasStarted by mutableStateOf(false)
         private set
 
     // Total milliseconds when timer starts
@@ -51,6 +58,8 @@ class TimerViewModel : ViewModel() {
 
         // Start coroutine that makes the timer count down
         if (totalMillis > 0) {
+            //sets the hasStarted to true
+            hasStarted = true
             isRunning = true
             remainingMillis = totalMillis
 
